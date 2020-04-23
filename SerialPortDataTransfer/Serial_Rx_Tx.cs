@@ -11,13 +11,14 @@
 using System;
 using System.IO.Ports;
 using System.Diagnostics;
+using System.Text;
 
 namespace SERIAL_RX_TX
 {
   public class SerialComPort
   {
     private SerialPort comPort;
-    
+        
     // constructor
     public SerialComPort()
     {
@@ -59,7 +60,10 @@ namespace SERIAL_RX_TX
 
     public string Open(string portName, string baudRate, string dataBits, string parity, string stopBits)
     {
-      try
+      DateTime dt = DateTime.Now;
+      String dtn = dt.ToShortTimeString();
+            
+            try
       {
         comPort.WriteBufferSize = 4096;
         comPort.ReadBufferSize = 4096;
@@ -70,6 +74,7 @@ namespace SERIAL_RX_TX
         comPort.PortName = portName.TrimEnd();
         comPort.BaudRate = Convert.ToInt32(baudRate);
         comPort.DataBits = Convert.ToInt32(dataBits);
+
         switch (parity)
         {
           case "None":
@@ -100,17 +105,20 @@ namespace SERIAL_RX_TX
       }
       if (comPort.IsOpen)
       {
-        return string.Format("{0} Открыт \r\n", comPort.PortName);
+        return string.Format(" [" + dtn + "] " + "{0} Открыт \r\n", comPort.PortName);
       }
       else
       {
-        return string.Format("{0} Произошла ошибка \r\n", comPort.PortName);
+        return string.Format(" [" + dtn + "] " + "{0} Произошла ошибка \r\n", comPort.PortName);
       }
     }
 
     public string Close()
     {
-      try
+            DateTime dt = DateTime.Now;
+            String dtn = dt.ToShortTimeString();
+
+            try
       {
         comPort.Close();
       }
@@ -118,35 +126,57 @@ namespace SERIAL_RX_TX
       {
         return error.Message + "\r\n";
       }
-      return string.Format("{0} Закрыт\r\n", comPort.PortName);
+      return string.Format(" [" + dtn + "] " + "{0} Закрыт\r\n", comPort.PortName);
     }
 
     public bool IsOpen()
     {
       return comPort.IsOpen;
-    }
-
-    private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        }
+    private void DataReceivedHandler(object sender,  SerialDataReceivedEventArgs e)
     {
       if (!comPort.IsOpen)
       {
         return;
       }
       string indata = string.Empty;
-      try
-      {
-        indata = comPort.ReadLine();
-        indata += "\n";
-        if (onMessageReceived != null)
+            
+            try
+            {
+                indata = comPort.ReadLine();
+
+                StringBuilder sb = new System.Text.StringBuilder();
+                string[] binaryArr1 = new string[sb.Length];
+                string[] binaryArr2 = new string[sb.Length];
+                string[] residueArr = new string[binaryArr1.Length];
+                foreach (byte b in System.Text.Encoding.UTF8.GetBytes(indata))
+                    for (int k=0; k < sb.Length; k++ ) 
+                    { 
+                        sb.Append(Convert.ToString(b, 2).PadLeft(11, '0').PadRight(15, '0'))/*.Append(' ')*/;
+                        binaryArr1[k]= sb.ToString();
+                        sb.Append(Convert.ToString(b, 2).PadLeft(11, '0'))/*.Append(' ')*/;
+                        binaryArr2[k] = sb.ToString();
+                        //string binaryStr = sb.ToString();
+                    }
+                for (int i = 0; i < binaryArr1.Length; i++)
+                {
+                    int binaryInt = Convert.ToInt32(binaryArr1[i], 2);
+                    int residue = binaryInt % 19/*10011*/;
+                    residueArr[i] = Convert.ToString(residue, 2);
+                    binaryArr1[i] = binaryArr2[i] + residueArr[i] + ' ';
+                }
+                    if (onMessageReceived != null)
         {
-          onMessageReceived(indata);
+                        onMessageReceived(indata);
+                    
+        } 
+      }
+
+            catch (Exception error)
+            {
+                Debug.Print(error.Message);
+            }
+
         }
-      }
-      catch (Exception error)
-      {
-        Debug.Print(error.Message);
-      }
-       
-    }
   }
 }

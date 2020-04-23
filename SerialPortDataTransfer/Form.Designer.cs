@@ -45,13 +45,11 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.MessageToSend = new System.Windows.Forms.TextBox();
-            this.SendMessege = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
             this.Add = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.Delete = new System.Windows.Forms.Button();
             this.FileInfo = new System.Windows.Forms.RichTextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -66,13 +64,14 @@
             // 
             // SendFile
             // 
+            this.SendFile.BackColor = System.Drawing.SystemColors.ControlLight;
             this.SendFile.Enabled = false;
-            this.SendFile.Location = new System.Drawing.Point(452, 233);
+            this.SendFile.Location = new System.Drawing.Point(168, 107);
             this.SendFile.Name = "SendFile";
-            this.SendFile.Size = new System.Drawing.Size(161, 35);
+            this.SendFile.Size = new System.Drawing.Size(93, 21);
             this.SendFile.TabIndex = 5;
-            this.SendFile.Text = "Передать файл";
-            this.SendFile.UseVisualStyleBackColor = true;
+            this.SendFile.Text = "Передать";
+            this.SendFile.UseVisualStyleBackColor = false;
             this.SendFile.Click += new System.EventHandler(this.SendFileButton);
             // 
             // textBoxName
@@ -127,7 +126,7 @@
             this.Messages.Name = "Messages";
             this.Messages.ReadOnly = true;
             this.Messages.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.Messages.Size = new System.Drawing.Size(605, 208);
+            this.Messages.Size = new System.Drawing.Size(377, 191);
             this.Messages.TabIndex = 9;
             this.Messages.Text = "";
             // 
@@ -156,19 +155,23 @@
             // 
             // Connection
             // 
+            this.Connection.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.Connection.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.Connection.Cursor = System.Windows.Forms.Cursors.Default;
+            this.Connection.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Connection.Location = new System.Drawing.Point(6, 107);
             this.Connection.Name = "Connection";
             this.Connection.Size = new System.Drawing.Size(102, 21);
             this.Connection.TabIndex = 18;
             this.Connection.Text = "Подключиться";
-            this.Connection.UseVisualStyleBackColor = true;
+            this.Connection.UseVisualStyleBackColor = false;
             this.Connection.Click += new System.EventHandler(this.ConnectionButton);
             // 
             // Browse
             // 
-            this.Browse.Location = new System.Drawing.Point(105, 31);
+            this.Browse.Location = new System.Drawing.Point(87, 107);
             this.Browse.Name = "Browse";
-            this.Browse.Size = new System.Drawing.Size(75, 20);
+            this.Browse.Size = new System.Drawing.Size(75, 21);
             this.Browse.TabIndex = 19;
             this.Browse.Text = "Путь";
             this.Browse.UseVisualStyleBackColor = true;
@@ -176,8 +179,9 @@
             // 
             // textBoxPath
             // 
+            this.textBoxPath.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.textBoxPath.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxPath.Location = new System.Drawing.Point(2, -7);
+            this.textBoxPath.Location = new System.Drawing.Point(71, 55);
             this.textBoxPath.Name = "textBoxPath";
             this.textBoxPath.ReadOnly = true;
             this.textBoxPath.ShortcutsEnabled = false;
@@ -210,49 +214,19 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.MessageToSend);
-            this.groupBox2.Controls.Add(this.SendMessege);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.SendFile);
             this.groupBox2.Controls.Add(this.Messages);
             this.groupBox2.Location = new System.Drawing.Point(12, 157);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(619, 307);
+            this.groupBox2.Size = new System.Drawing.Size(390, 220);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Сообщения";
-            // 
-            // MessageToSend
-            // 
-            this.MessageToSend.Location = new System.Drawing.Point(92, 274);
-            this.MessageToSend.Name = "MessageToSend";
-            this.MessageToSend.Size = new System.Drawing.Size(440, 20);
-            this.MessageToSend.TabIndex = 12;
-            // 
-            // SendMessege
-            // 
-            this.SendMessege.Location = new System.Drawing.Point(538, 274);
-            this.SendMessege.Name = "SendMessege";
-            this.SendMessege.Size = new System.Drawing.Size(75, 20);
-            this.SendMessege.TabIndex = 11;
-            this.SendMessege.Text = "Отправить";
-            this.SendMessege.UseVisualStyleBackColor = true;
-            this.SendMessege.Click += new System.EventHandler(this.SendMessageButton);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 277);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Комментарии:";
+            this.groupBox2.Text = "Отчетность:";
             // 
             // Add
             // 
-            this.Add.Location = new System.Drawing.Point(105, 71);
+            this.Add.Location = new System.Drawing.Point(6, 107);
             this.Add.Name = "Add";
-            this.Add.Size = new System.Drawing.Size(75, 20);
+            this.Add.Size = new System.Drawing.Size(75, 21);
             this.Add.TabIndex = 25;
             this.Add.Text = "Добавить";
             this.Add.UseVisualStyleBackColor = true;
@@ -260,53 +234,54 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.Delete);
+            this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.FileInfo);
+            this.groupBox3.Controls.Add(this.SendFile);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.Browse);
             this.groupBox3.Controls.Add(this.textBoxMessege);
             this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.textBoxPath);
             this.groupBox3.Controls.Add(this.textBoxName);
             this.groupBox3.Controls.Add(this.Add);
             this.groupBox3.Location = new System.Drawing.Point(134, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(497, 139);
+            this.groupBox3.Size = new System.Drawing.Size(268, 139);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Редактирование файла";
-            // 
-            // Delete
-            // 
-            this.Delete.Location = new System.Drawing.Point(5, 107);
-            this.Delete.Name = "Delete";
-            this.Delete.Size = new System.Drawing.Size(175, 21);
-            this.Delete.TabIndex = 27;
-            this.Delete.Text = "Очистить";
-            this.Delete.UseVisualStyleBackColor = true;
-            this.Delete.Click += new System.EventHandler(this.ClearFileInfoButton);
             // 
             // FileInfo
             // 
             this.FileInfo.BackColor = System.Drawing.SystemColors.ControlLight;
             this.FileInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.FileInfo.Cursor = System.Windows.Forms.Cursors.Default;
-            this.FileInfo.Location = new System.Drawing.Point(186, 19);
+            this.FileInfo.Location = new System.Drawing.Point(105, 31);
             this.FileInfo.Name = "FileInfo";
             this.FileInfo.ReadOnly = true;
-            this.FileInfo.Size = new System.Drawing.Size(303, 109);
+            this.FileInfo.Size = new System.Drawing.Size(156, 60);
             this.FileInfo.TabIndex = 10;
             this.FileInfo.Text = "";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(104, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(68, 13);
+            this.label5.TabIndex = 26;
+            this.label5.Text = "Изменения:";
             // 
             // Form
             // 
             this.AccessibleName = "";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(639, 469);
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ClientSize = new System.Drawing.Size(413, 382);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.textBoxPath);
             this.Name = "Form";
             this.ShowIcon = false;
             this.Text = "Serial Port Data Transfer";
@@ -315,11 +290,9 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -344,10 +317,8 @@
         private System.Windows.Forms.Button Add;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RichTextBox FileInfo;
-        private System.Windows.Forms.Button Delete;
-        private System.Windows.Forms.TextBox MessageToSend;
-        private System.Windows.Forms.Button SendMessege;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label5;
     }
 }
 

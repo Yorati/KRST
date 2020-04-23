@@ -18,10 +18,31 @@ namespace COMPDT
     
     public partial class Form : System.Windows.Forms.Form
     {
-        private void Form_Load(object sender, EventArgs e)
-        {
+ 
+        //private void SerialPortConnect(String port, int baudrate, Parity parity, int databits, StopBits stopbits)
+        //{
+        //    DateTime dt = DateTime.Now;
+        //    String dtn = dt.ToShortTimeString();
 
-        }
+        //    serialport = new System.IO.Ports.SerialPort(port, baudrate, parity, databits, stopbits);
+        //    try
+        //    {
+        //        serialport.Open();
+        //        Disconnection.Enabled = true;
+        //        Send.Enabled = true;
+        //        Connection.Enabled = false;
+        //        Messeges.AppendText(" [" + dtn + "] " + "Подключен\n");
+        //        serialport.DataReceived += new SerialDataReceivedEventHandler(SerialPortDataReceived);
+        //    }
+        //    catch (Exception ex) { MessageBox.Show(ex.ToString(), "Ошибка"); }
+        //}
+        //private void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)
+        //{
+        //    DateTime dt = DateTime.Now;
+        //    String dtn = dt.ToShortTimeString();
+
+        //    Messeges.AppendText(" [" + dtn + "] " + "Получено: " + serialport.ReadExisting() + "\n");
+        //}
         //private System.IO.Ports.SerialPort serialport;
         private SerialComPort serialcomport;
         private Timer receivedDataTimer;
@@ -29,7 +50,10 @@ namespace COMPDT
         private string receivedData;
         private bool dataReady = false;
         private StreamReader file;
+        private void Form_Load(object sender, EventArgs e)
+        {
 
+        }   
         public Form()
         {
             InitializeComponent();
@@ -55,16 +79,71 @@ namespace COMPDT
             }
             else
             {
+
                 dataReady = true;
                 receivedData = data;
             }
         }
         private void ReceivedDataTimerTick(object sender, EventArgs e)
         {
+            string path = textBoxPath.Text + "r.txt";
+
             if (dataReady)
-            {
+                {
+                string indata = string.Empty;
+
+                Messages.Clear();
+                //StringBuilder sb = new System.Text.StringBuilder();
+                //string[] binaryArr1 = new string[sb.Length];
+                //string[] binaryArr2 = new string[sb.Length];
+                //string[] residueArr = new string[binaryArr1.Length];
+                //string[] residueArr2 = new string[binaryArr1.Length];
+
+                //string binaryStr=null;
+                //foreach (byte b in System.Text.Encoding.UTF8.GetBytes(indata))
+                //    for (int k = 0; k < sb.Length; k++)
+                //    {
+                //        sb.Append(Convert.ToString(b, 2).PadLeft(11, '0').PadRight(15, '0'))/*.Append(' ')*/;
+                //        binaryArr1[k] = sb.ToString();
+                //        sb.Append(Convert.ToString(b, 2).PadLeft(11, '0'))/*.Append(' ')*/;
+                //        binaryArr2[k] = sb.ToString();
+                //        //string binaryStr = sb.ToString();
+                //    }
+                //for (int i = 0; i < binaryArr1.Length; i++)
+                //{
+                //    int binaryInt = Convert.ToInt32(binaryArr1[i], 2);
+                //    int residue = binaryInt % 19/*10011*/;
+                //    residueArr[i] = Convert.ToString(residue, 2);
+                //    binaryArr1[i] = binaryArr2[i] + residueArr[i] + ' ';
+                //    binaryStr += binaryArr1[i];
+                //}
+                //char[] separators = new char[] { ' ' };
+                //var wordsArray = binaryStr.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                //string wordsStr = null;
+                //string wordsStr2 = null;
+                //string[] arrayCode = new string[binaryArr1.Length];
+                //for (int o = 0; o < wordsArray.Length; o++)
+                //{
+                //    int wordsInt = Convert.ToInt32(wordsArray[o], 2);
+                //    int residue = wordsInt % 19/*10011*/;
+                //    wordsStr = wordsArray[o];
+                //    StringBuilder sb2 = new StringBuilder(wordsStr);
+                //    if (residue != 0) { if (sb2[residue - 2] == 1) { sb2[residue - 2] = '0'; } else { sb2[residue - 2] = '1'; } }
+                //    wordsStr2 = sb2.ToString();
+                //    arrayCode[o] = wordsStr2;
+                //}
+                //var bytes = arrayCode.Select(s => Convert.ToByte(s, 16));
+                //var word = Encoding.UTF8.GetString(bytes.ToArray()); ;
                 dataReady = false;
-                UpdateDataWindow(receivedData);
+                //UpdateDataWindow(receivedData);
+                UpdateDataWindow("Данные приняты.");
+                Messages.Clear();
+                UpdateDataWindow("Данные приняты..");
+                Messages.Clear();
+                UpdateDataWindow("Данные приняты...");
+                using (FileStream file = new FileStream(path, FileMode.Append))
+                using (StreamWriter sw = new StreamWriter(file))
+                    sw.WriteLine(Messages.Text);
             }
         }
         private void ReplayFileTimerTick(object sender, EventArgs e)
@@ -76,7 +155,7 @@ namespace COMPDT
                     string message = file.ReadLine();
                     if (!file.EndOfStream)
                     {
-                        serialcomport.SendLine(message + "\r\n");
+                        serialcomport.SendLine(message + "\n");
                     }
                     else
                     {
@@ -95,51 +174,41 @@ namespace COMPDT
             Messages.SelectionStart = Messages.TextLength;
             Messages.ScrollToCaret();
         }
-        //private void SerialPortConnect(String port, int baudrate, Parity parity, int databits, StopBits stopbits)
+        //private void UpdateReportWindow(string message)
+        //{
+        //    TransferReport.Text += message;
+        //    TransferReport.SelectionStart = TransferReport.TextLength;
+        //    TransferReport.ScrollToCaret();
+        //}
+        //private void SendMessageButton(object sender, EventArgs e)
         //{
         //    DateTime dt = DateTime.Now;
         //    String dtn = dt.ToShortTimeString();
 
-        //    serialport = new System.IO.Ports.SerialPort(port, baudrate, parity, databits, stopbits);
-        //    try
+        //    if (serialcomport.IsOpen())
         //    {
-        //        serialport.Open();
-        //        Disconnection.Enabled = true;
-        //        Send.Enabled = true;
-        //        Connection.Enabled = false;
-        //        Messeges.AppendText(" [" + dtn + "] " + "Подключен\n");
-        //        serialport.DataReceived += new SerialDataReceivedEventHandler(SerialPortDataReceived);
-        //    }
-        //    catch (Exception ex) { MessageBox.Show(ex.ToString(), "Ошибка"); }
-        //}
-        //private void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)
-        //{
-        //    DateTime dt = DateTime.Now;
-        //    String dtn = dt.ToShortTimeString();
 
-        //    Messeges.AppendText(" [" + dtn + "] " + "Получено: " + serialport.ReadExisting() + "\n");
+        //        string message = " [" + dtn + "] " + comboBoxPort.Text + ":" + MessageToSend.Text + "\r\n";
+        //        serialcomport.SendLine(message);
+        //        UpdateDataWindow(message);
+        //    }
+        //    else
+        //    {
+        //        UpdateDataWindow(" [" + dtn + "] " + "Откройте свой порт\r\n");
+        //    }
         //}
-        private void SendMessageButton(object sender, EventArgs e)
-        {
-            if (serialcomport.IsOpen())
-            {
-                string message = MessageToSend.Text + "\r\n";
-                serialcomport.SendLine(message);
-                UpdateDataWindow(message);
-            }
-            else
-            {
-                UpdateDataWindow("Сначала откройте свой порт\r\n");
-            }
-        }
         private void SendFileButton(object sender, EventArgs e)
         {
+            Messages.Clear();
+            DateTime dt = DateTime.Now;
+            String dtn = dt.ToShortTimeString();
+            
             if (!serialcomport.IsOpen())
             {
-                UpdateDataWindow("Сначала откройте свой порт\r\n");
+                UpdateDataWindow(" [" + dtn + "] " + "Откройте свой порт\r\n");
                 return;
             }
-            if (SendFile.Text == "Передать файл")
+            if (SendFile.Text == "Передать")
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 DialogResult result = openFileDialog.ShowDialog();
@@ -147,23 +216,28 @@ namespace COMPDT
                 {
                     file = new System.IO.StreamReader(openFileDialog.FileName);
                     SendFile.Text = "Остановить передачу";
-                    UpdateDataWindow("Replaying to COM port: " + openFileDialog.FileName + "\r\n");
+                    UpdateDataWindow("Передача через COM порт: " + openFileDialog.FileName + "\r\n");
                 }
             }
             else
             {
                 if (file != null)
                 {
+                    
                     file.Close();
                     file = null;
-                    SendFile.Text = "Передать файл";
+                    SendFile.Text = "Передать";
+                    this.timer1.Dispose();
                 }
             }
         }
         private void ConnectionButton(object sender, EventArgs e)
         {
+            DateTime dt = DateTime.Now;
+            String dtn = dt.ToShortTimeString();
+
             if (comboBoxPort.Text == "" || comboBoxBaudRate.Text == "")
-            { Messages.Text = "Пожалуйста заполните настройки порта\n"; }
+            { Messages.Text = " [" + dtn + "] " + "Пожалуйста заполните настройки порта\n"; }
             else
             {
                     // Handles the Open/Close button, which toggles its label, depending on previous state.
@@ -185,26 +259,12 @@ namespace COMPDT
                     UpdateDataWindow(status);
             }
         }
-        //private void DisconnectionButton(object sender, EventArgs e)
-        //{
-        //    DateTime dt = DateTime.Now;
-        //    String dtn = dt.ToShortTimeString();
-
-        //    if (serialport.IsOpen)
-        //    {
-        //        serialport.Close();
-        //        Disconnection.Enabled = false;
-        //        Send.Enabled = false;
-        //        Connection.Enabled = true;
-        //        Messeges.AppendText(" [" + dtn + "] " + "Отключен\n");
-        //    }
-        //}
         private void BrowseButton(object sender, EventArgs e)
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog() { Description = "Выберите путь, где хотите сохранить свои файлы:" })
                 if (fbd.ShowDialog() == DialogResult.OK) 
                 {
-                    FileInfo.Text = "Файлы будут сохранены по пути" + fbd.SelectedPath + "\n";
+                    FileInfo.Text = "Файлы будут сохранены по пути " + fbd.SelectedPath + "\n";
                     textBoxPath.Text = fbd.SelectedPath + "\\";
                     
                 }
@@ -226,10 +286,6 @@ namespace COMPDT
                 FileInfo.AppendText(" [" + dtn + "] " + textBoxName.Text + ".txt изменен \n");
                 FileInfo.AppendText(" Содержание:\n" + sr.ReadToEnd());
             }
-        }
-        private void ClearFileInfoButton(object sender, EventArgs e)
-        {
-            
         }
     }
 }
