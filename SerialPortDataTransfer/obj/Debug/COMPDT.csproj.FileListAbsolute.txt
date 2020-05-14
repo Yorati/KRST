@@ -7,7 +7,6 @@ C:\Users\R A T I\source\repos\COMPDT\obj\Debug\COMPDT.csproj.GenerateResource.ca
 C:\Users\R A T I\source\repos\COMPDT\obj\Debug\COMPDT.exe
 C:\Users\R A T I\source\repos\COMPDT\obj\Debug\COMPDT.pdb
 C:\Users\R A T I\source\repos\COMPDT\obj\Debug\COMPDT.Form.resources
-C:\Users\R A T I\source\repos\SerialPortDataTransfer\bin\Debug\COMPDT.exe.config
 C:\Users\R A T I\source\repos\SerialPortDataTransfer\bin\Debug\COMPDT.exe
 C:\Users\R A T I\source\repos\SerialPortDataTransfer\bin\Debug\COMPDT.pdb
 C:\Users\R A T I\source\repos\SerialPortDataTransfer\obj\Debug\COMPDT.Form.resources

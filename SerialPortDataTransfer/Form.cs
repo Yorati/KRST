@@ -86,7 +86,7 @@ namespace COMPDT
         }
         private void ReceivedDataTimerTick(object sender, EventArgs e)
         {
-            string path = textBoxPath.Text + "r.txt";
+            string path = textBoxPath.Text + "2.txt";
 
             if (dataReady)
                 {
@@ -136,14 +136,13 @@ namespace COMPDT
                 //var word = Encoding.UTF8.GetString(bytes.ToArray()); ;
                 dataReady = false;
                 //UpdateDataWindow(receivedData);
-                UpdateDataWindow("Данные приняты.");
-                Messages.Clear();
-                UpdateDataWindow("Данные приняты..");
                 Messages.Clear();
                 UpdateDataWindow("Данные приняты...");
+                StellsBox.Clear();
+                UpdateWindow(receivedData);
                 using (FileStream file = new FileStream(path, FileMode.Append))
                 using (StreamWriter sw = new StreamWriter(file))
-                    sw.WriteLine(Messages.Text);
+                    sw.WriteLine(StellsBox.Text);
             }
         }
         private void ReplayFileTimerTick(object sender, EventArgs e)
@@ -172,7 +171,13 @@ namespace COMPDT
         {
             Messages.Text += message;
             Messages.SelectionStart = Messages.TextLength;
-            Messages.ScrollToCaret();
+            Messages.ScrollToCaret(); 
+        }
+        private void UpdateWindow(string message)
+        {
+            StellsBox.Text += message;
+            StellsBox.SelectionStart = StellsBox.TextLength;
+            StellsBox.ScrollToCaret(); 
         }
         //private void UpdateReportWindow(string message)
         //{
@@ -286,6 +291,17 @@ namespace COMPDT
                 FileInfo.AppendText(" [" + dtn + "] " + textBoxName.Text + ".txt изменен \n");
                 FileInfo.AppendText(" Содержание:\n" + sr.ReadToEnd());
             }
+        }
+
+
+        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
